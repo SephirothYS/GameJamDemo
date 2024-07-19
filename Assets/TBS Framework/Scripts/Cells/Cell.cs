@@ -55,6 +55,8 @@ namespace TbsFramework.Cells
         /// </summary>
         public event EventHandler CellDehighlighted;
 
+        public bool HasFog;
+
         public virtual void OnMouseEnter()
         {
             if (CellHighlighted != null)

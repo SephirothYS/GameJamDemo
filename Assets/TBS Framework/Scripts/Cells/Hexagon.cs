@@ -104,8 +104,13 @@ namespace TbsFramework.Cells
         }
 
         protected static readonly Vector3[] _directions = {
-        new Vector3(1, 0, -1), new Vector3(1, -1, 0), new Vector3(0, -1, 1),
-        new Vector3(-1, 0, 1), new Vector3(-1, 1, 0), new Vector3(0, 1, -1)};
+        new Vector3(0, 1, -1),       // 右上
+        new Vector3(1, 0, -1),      // 右
+        new Vector3(1, -1, 0),      // 右下
+        new Vector3(0, -1, 1),      // 左下
+        new Vector3(-1, 0, 1),      // 左
+        new Vector3(-1, 1, 0)      // 左上
+};
 
         public override int GetDistance(Cell other)
         {

@@ -14,13 +14,13 @@ namespace TbsFramework.EditorUtils.GridGenerators
 #pragma warning disable 0649
         public GameObject HexagonPrefab;
         public int Radius;
-        public float gatherFactor;
-        public float xFactor;
-        public float yFactor;
 #pragma warning restore 0649
 
         public override GridInfo GenerateGrid()
         {
+            float gatherFactor = 0;
+            float xFactor = 0.5f;
+            float yFactor = 0.75f;
             var hexagons = new List<Cell>();
 
             if (HexagonPrefab.GetComponent<Hexagon>() == null)

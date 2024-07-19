@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿
+using System.Linq;
 using TbsFramework.Grid;
 using TbsFramework.Grid.GameResolvers;
 

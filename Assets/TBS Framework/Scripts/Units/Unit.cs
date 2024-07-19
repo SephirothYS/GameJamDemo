@@ -11,6 +11,8 @@ using TbsFramework.Grid;
 using TbsFramework.Players.AI.Actions;
 using TbsFramework.Players.AI.Evaluators;
 using TbsFramework.Units.Abilities;
+using TbsFramework.CA;
+using UnityEngine.UIElements;
 
 namespace TbsFramework.Units
 {
@@ -116,6 +118,7 @@ namespace TbsFramework.Units
                 cell = value;
             }
         }
+        public Cell previousCell;
 
         public int HitPoints;
         public int AttackRange;
@@ -380,6 +383,7 @@ namespace TbsFramework.Units
             var totalMovementCost = path.Sum(h => h.MovementCost);
             MovementPoints -= totalMovementCost;
 
+            previousCell = Cell;
             Cell.IsTaken = false;
             Cell.CurrentUnits.Remove(this);
             Cell = destinationCell;
@@ -413,7 +417,6 @@ namespace TbsFramework.Units
                     yield return null;
                 }
             }
-
             OnMoveFinished();
         }
         /// <summary>
@@ -451,7 +454,7 @@ namespace TbsFramework.Units
                 if(cachedPaths.TryGetValue(cell, out var path))
                 {
                     var pathCost = path.Sum(c => c.MovementCost);
-                    if (pathCost <= MovementPoints)
+                    if (pathCost <= MovementPoints && !cell.HasFog)
                     {
                         availableDestinations.Add(cell);
                     }
@@ -625,6 +628,7 @@ namespace TbsFramework.Units
             brain.AddComponent<DamageCellEvaluator>();
             brain.AddComponent<DamageUnitEvaluator>();
         }
+
     }
 
     public class AttackAction
