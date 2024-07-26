@@ -17,6 +17,7 @@ namespace TbsFramework.HOMMExample
         public string UnitName;
         public FogManager fogManager;
         public CharacterAnimator characterAnimator;
+        public float Oxygen = 100;
 
         private void Start()
         {
@@ -63,6 +64,7 @@ namespace TbsFramework.HOMMExample
                     yield return null;
                 }
                 previousCell = currentCell;
+                Oxygen -= currentCell.MovementCost;
             }
             SetIdleAnimation();
             OnMoveFinished();
