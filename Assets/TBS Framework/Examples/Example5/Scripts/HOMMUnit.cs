@@ -18,10 +18,14 @@ namespace TbsFramework.HOMMExample
         public FogManager fogManager;
         public CharacterAnimator characterAnimator;
         public float Oxygen = 100;
+        public GameObject gameOverUIPanel;
+        public CanvasGroup blackScreenCanvasGroup;
+        public CanvasGroup UICanvasGroup;
 
         private void Start()
         {
             fogManager.UpdateVisibility();
+            blackScreenCanvasGroup.alpha = 0;
         }
         public override void Initialize()
         {
@@ -32,7 +36,14 @@ namespace TbsFramework.HOMMExample
         protected override void OnMoveFinished()
         {
             //GetComponentInChildren<SpriteRenderer>().sortingOrder = (int)(Cell.OffsetCoord.x * Cell.OffsetCoord.y);
-            fogManager.UpdateVisibility();
+            if (Oxygen <= 0)
+            {
+                TriggerGameOver();
+            }
+            else
+            { 
+                fogManager.UpdateVisibility();
+            }
         }
 
         public override bool IsUnitAttackable(Unit other, Cell otherCell, Cell sourceCell)
@@ -91,6 +102,31 @@ namespace TbsFramework.HOMMExample
             string idleAnimation = currentAnimation.Replace("Walk", "Idle");
             characterAnimator.ChangeAnimationState(idleAnimation);
 
+        }
+
+        void TriggerGameOver()
+        {
+            StartCoroutine(GameOverSequence());
+        }
+
+        IEnumerator GameOverSequence()
+        {
+            // Gradually darken the screen
+            float alpha = 0f;
+
+            while (alpha < 1f)
+            {
+                alpha += Time.deltaTime / 2;  // Duration of the black screen effect
+                blackScreenCanvasGroup.alpha = alpha;
+                yield return null;
+            }
+
+            // Optionally, wait for a bit before displaying "Game Over"
+            yield return new WaitForSeconds(1f);
+
+            // Show Game Over UI
+            gameOverUIPanel.SetActive(true);
+            UICanvasGroup.alpha = 1f;
         }
     }
 }
