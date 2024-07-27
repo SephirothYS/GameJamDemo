@@ -429,7 +429,7 @@ namespace TbsFramework.Units
         /// </summary>
         public virtual bool IsCellMovableTo(Cell cell)
         {
-            return !cell.IsTaken;
+            return !cell.IsTaken && !cell.HasFog;
         }
         /// <summary>
         /// Method indicates if unit is capable of moving through cell given as parameter.
@@ -443,23 +443,10 @@ namespace TbsFramework.Units
         /// </summary>
         public HashSet<Cell> GetAvailableDestinations(List<Cell> cells)
         {
-            if (cachedPaths == null)
-            {
-                CachePaths(cells);
-            }
+            var availableDestinations = GetImmediateNeighbours(Cell, cells);
 
-            var availableDestinations = new HashSet<Cell>();
-            foreach (var cell in cells)
-            {
-                if(cachedPaths.TryGetValue(cell, out var path))
-                {
-                    var pathCost = path.Sum(c => c.MovementCost);
-                    if (pathCost <= MovementPoints && !cell.HasFog)
-                    {
-                        availableDestinations.Add(cell);
-                    }
-                }
-            }
+            // 可以选择性过滤掉不可通过的格子
+            availableDestinations.RemoveWhere(c => !IsCellTraversable(c) && !IsCellMovableTo(c));
 
             return availableDestinations;
         }
@@ -499,6 +486,11 @@ namespace TbsFramework.Units
                 }
             }
             return ret;
+        }
+
+        public HashSet<Cell> GetImmediateNeighbours(Cell cell, List<Cell> allCells)
+        {
+            return new HashSet<Cell>(cell.GetNeighbours(allCells));
         }
 
         /// <summary>
