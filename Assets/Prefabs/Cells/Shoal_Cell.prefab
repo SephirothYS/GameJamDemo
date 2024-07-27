@@ -282,9 +282,11 @@ MonoBehaviour:
   UnMarkFn:
   - {fileID: 4609117517547028483}
   IsTaken: 0
-  MovementCost: 2
+  MovementCost: 5
   HasFog: 0
   HexGridType: 0
+  MarkAsOccypiedFn:
+  - {fileID: 7513175277100695186}
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -347,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 3454134873622931862}
-  Color: {r: 0, g: 0.60759497, b: 1, a: 0.7490196}
+  Color: {r: 0, g: 0.60759497, b: 1, a: 0.40392157}
 --- !u!114 &4609117517547028483
 MonoBehaviour:
   m_ObjectHideFlags: 0

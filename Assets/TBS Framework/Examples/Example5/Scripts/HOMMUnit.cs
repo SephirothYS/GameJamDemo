@@ -33,6 +33,19 @@ namespace TbsFramework.HOMMExample
             transform.position += offset;
         }
 
+        private void Update()
+        {
+            if (previousCell != null)
+            {
+                previousCell.UnMark();
+            }
+            if (Cell != null)
+            { 
+                HOMMHex curCell = Cell as HOMMHex;
+                curCell.MarkAsOccupied();
+            }
+        }
+
         protected override void OnMoveFinished()
         {
             //GetComponentInChildren<SpriteRenderer>().sortingOrder = (int)(Cell.OffsetCoord.x * Cell.OffsetCoord.y);

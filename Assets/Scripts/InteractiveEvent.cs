@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fungus;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public class InteractiveEvent : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class InteractiveEvent : MonoBehaviour
     private bool doOnce;
     private Flowchart flowchart;
     private bool canEnter;
-    public Image backGoundImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,12 +33,22 @@ public class InteractiveEvent : MonoBehaviour
         {
             if (flowchart.HasBlock(blockName))
             {
-                backGoundImage.enabled = true;
-                flowchart.ExecuteBlock(blockName);
-                backGoundImage.enabled = false;
-                doOnce = true;
+                StartCoroutine(StartEventAfterDelay(1.5f));
             }
         }
+    }
+
+    void doExecute()
+    {
+        flowchart.ExecuteBlock(blockName);
+        doOnce = true;
+    }
+
+    private IEnumerator StartEventAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); 
+
+        doExecute(); // 调用实际事件开始逻辑
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -1,10 +1,13 @@
 ﻿using TbsFramework.Cells;
 using UnityEngine;
+using TbsFramework.Cells.Highlighters;
+using System.Collections.Generic;
 
 namespace TbsFramework
 {
     public class HOMMHex : Hexagon
     {
+        public List<CellHighlighter> MarkAsOccypiedFn;
         public override Vector3 GetCellDimensions()
         {
             return new Vector3(5.34f, 4.6f, 0f);
@@ -31,6 +34,11 @@ namespace TbsFramework
             {
                 base.MarkAsHighlighted();
             }
+        }
+
+        public void MarkAsOccupied()
+        {
+            MarkAsOccypiedFn?.ForEach(o => o.Apply(this));
         }
 
         public int GetNeighbourDirection(HOMMHex other)

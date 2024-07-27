@@ -9,7 +9,10 @@ public class MenuManager : MonoBehaviour
     public Slider processBar;
     void Start()
     {
-        
+        if (processBar != null)
+        { 
+            processBar.enabled = false; 
+        }
     }
 
     public void LoadGame()
@@ -21,6 +24,7 @@ public class MenuManager : MonoBehaviour
     {
         int displayBar = 0;
         int targetBar;
+        processBar.enabled = true;
         AsyncOperation op = SceneManager.LoadSceneAsync(scene);
         op.allowSceneActivation = false;
 
