@@ -21,7 +21,9 @@ namespace TbsFramework.HOMMExample
         public GameObject gameOverUIPanel;
         public CanvasGroup blackScreenCanvasGroup;
         public CanvasGroup UICanvasGroup;
-
+        private GameObject canvasNote;
+        public int oxygenFactor = 1;
+        
         private void Start()
         {
             fogManager.UpdateVisibility();
@@ -88,7 +90,7 @@ namespace TbsFramework.HOMMExample
                     yield return null;
                 }
                 previousCell = currentCell;
-                Oxygen -= currentCell.MovementCost;
+                Oxygen -= currentCell.MovementCost * oxygenFactor;
             }
             SetIdleAnimation();
             OnMoveFinished();

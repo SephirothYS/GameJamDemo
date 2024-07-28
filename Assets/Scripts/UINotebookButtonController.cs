@@ -5,11 +5,21 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    //string path = "D:\\GameJam\\shiban_content.txt";
-    public Text text1;
-    public Text text2;
+    // string path = "D:\\GameJam\\shiban_content.txt";
+    // public Text text1;
+    // public Text text2;
+
+    private string unselectedColorStr = "#856943";
+    private string selectedColorStr = "#CC4E14";
+
+    public Text label1;
+    public Text label2;
+    public Image questionMark1;
+    public Image questionMark2;
 
     public Button[] buttons; // 所有按钮的数组
+    public Image[] stories; // 全部石板描述文字
+
     public float selectedWidth = 200f; // 选中时的宽度
     public float normalWidth = 100f; // 未选中时的宽度
     public float transitionSpeed = 5f; // 变化速度
@@ -18,13 +28,18 @@ public class ButtonManager : MonoBehaviour
 
     private int selectedButtonNum = 0;
 
-    string[] paragraphs;
+    // string[] paragraphs;
+
+    private void Awake()
+    {
+        InitUnlockState();
+    }
 
     void Start()
     {
-        // 读取文件
-        //string fileContent = File.ReadAllText(path);
-        //paragraphs = fileContent.Split(new string[] { "//\r\n\r\n" }, StringSplitOptions.None);
+        // // 读取文件
+        // string fileContent = File.ReadAllText(path);
+        // paragraphs = fileContent.Split(new string[] { "//\r\n\r\n" }, StringSplitOptions.None);
 
         // 初始化按钮状态
         for (int i = 0; i < buttons.Length; i++)
@@ -39,16 +54,18 @@ public class ButtonManager : MonoBehaviour
         {
             selectedButtonNum = 0;
         }
-        InitUnlockState();
-        RefreshText();
+        //InitUnlockState();
+        RefreshColor();
+        RefreshPage();
     }
 
     void InitUnlockState()
     {
         for (int i = 0; i < unlockState.Length; i++)
         {
-            unlockState[i] = true;
+            unlockState[i] = false;
         }
+        //unlockState[5] = false;
     }
 
     void Update()
@@ -68,33 +85,70 @@ public class ButtonManager : MonoBehaviour
     {
         // 设置当前选中的按钮
         selectedButtonNum = num;
-        RefreshText();
+        RefreshColor();
+        RefreshPage();
     }
 
-    void RefreshText()
+    void RefreshColor()
+    {
+        Color unselectedColor;
+        if (ColorUtility.TryParseHtmlString(unselectedColorStr, out unselectedColor))
+        foreach (var button in buttons)
+        {
+            Image img = button.GetComponent<Image>();
+            img.color = unselectedColor;
+        }
+
+        Color selectedColor;
+        if (ColorUtility.TryParseHtmlString(selectedColorStr, out selectedColor))
+        {
+            Image img = buttons[selectedButtonNum].GetComponent<Image>();
+            img.color = selectedColor;
+        }
+    }
+
+    string GetLabelStr(int num)
+    {
+        string str = num.ToString();
+        return str.Length == 1 ? "0" + str : str;
+    }
+
+    void RefreshText(int num)
+    {
+        if (unlockState[num] == true)
+        {
+            stories[num].enabled = true;
+        }
+        else
+        {
+            if (num % 2 == 0)
+            {
+                questionMark1.enabled = true;
+            }
+            else
+            {
+                questionMark2.enabled = true;
+            }
+        }
+    }
+
+    void RefreshPage()
     {
         int no1 = selectedButtonNum * 2;
         int no2 = selectedButtonNum * 2 + 1;
 
-        text1.text = paragraphs[no1];
-        text2.text = paragraphs[no2];
+        label1.text = GetLabelStr(no1 + 1);
+        label2.text = GetLabelStr(no2 + 1);
 
-        if (unlockState[no1])
+        questionMark1.enabled = false;
+        questionMark2.enabled = false;
+
+        for (int i = 0; i < stories.Length; i++)
         {
-            text1.enabled = true;
-        }
-        else
-        {
-            text1.enabled = false;
+            stories[i].enabled = false;
         }
 
-        if (unlockState[no2])
-        {
-            text2.enabled = true;
-        }
-        else
-        {
-            text2.enabled = false;
-        }
+        RefreshText(no1);
+        RefreshText(no2);
     }
 }

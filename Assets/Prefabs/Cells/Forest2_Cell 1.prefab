@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 4609117517547028483}
   - component: {fileID: 3131336748719326672}
   - component: {fileID: -1626775252268795954}
+  - component: {fileID: -2640291150280301495}
   m_Layer: 0
   m_Name: Forest2_Cell 1
   m_TagString: Untagged
@@ -288,6 +289,8 @@ MonoBehaviour:
   HexGridType: 0
   MarkAsOccypiedFn:
   - {fileID: -1626775252268795954}
+  MarkAsTutorialFn:
+  - {fileID: -2640291150280301495}
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -393,3 +396,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1392301381870217774}
   Color: {r: 0, g: 0.60784316, b: 1, a: 0.40392157}
+--- !u!114 &-2640291150280301495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968633158720202362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da0e217703e4844ba3563c170281194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 1392301381870217774}
+  Color: {r: 1, g: 0, b: 0, a: 0.53333336}
+  PropertyName: _Color

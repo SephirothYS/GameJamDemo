@@ -287,6 +287,8 @@ MonoBehaviour:
   HexGridType: 0
   MarkAsOccypiedFn:
   - {fileID: 7513175277100695186}
+  MarkAsTutorialFn: []
+  isSea: 1
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0

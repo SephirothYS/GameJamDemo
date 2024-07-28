@@ -16,10 +16,10 @@ public class IconEvent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IconDisapper();
+
     }
 
-    void IconDisapper()
+    public void IconDisapper()
     {
         if (needIcon)
         {
@@ -36,6 +36,7 @@ public class IconEvent : MonoBehaviour
         if (collision.tag.Equals("Player"))
         {
             needIcon = true;
+            GeneralButton.Instance.ConnectIcon(this);
         }
     }
 

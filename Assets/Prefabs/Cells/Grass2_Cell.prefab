@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 7513175277100695186}
   - component: {fileID: 4609117517547028483}
   - component: {fileID: 3131336748719326672}
+  - component: {fileID: 4221415661595786974}
   m_Layer: 0
   m_Name: Grass2_Cell
   m_TagString: Untagged
@@ -285,7 +286,10 @@ MonoBehaviour:
   MovementCost: 5
   HasFog: 0
   HexGridType: 0
-  MarkAsOccypiedFn: []
+  MarkAsOccypiedFn:
+  - {fileID: 7513175277100695186}
+  MarkAsTutorialFn:
+  - {fileID: 4221415661595786974}
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -377,3 +381,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 3417787616177281902}
   Color: {r: 0, g: 0, b: 0, a: 0.27058825}
+--- !u!114 &4221415661595786974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968633158720202362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500c6816ea942a8499f2318e99facc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 3417787616177281902}
+  Color: {r: 1, g: 0, b: 0, a: 0.53333336}

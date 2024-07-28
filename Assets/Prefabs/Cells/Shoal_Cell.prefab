@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 7513175277100695186}
   - component: {fileID: 4609117517547028483}
   - component: {fileID: 3131336748719326672}
+  - component: {fileID: -4087768800872215317}
   m_Layer: 0
   m_Name: Shoal_Cell
   m_TagString: Untagged
@@ -249,12 +250,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e8f6d2db66808f3479395baf6c689a36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0250067a027a1d248add239bc65a587c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.34, y: 4.62}
+  m_Size: {x: 10.8, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -287,6 +288,9 @@ MonoBehaviour:
   HexGridType: 0
   MarkAsOccypiedFn:
   - {fileID: 7513175277100695186}
+  MarkAsTutorialFn:
+  - {fileID: -4087768800872215317}
+  isSea: 0
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -378,3 +382,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 3454134873622931862}
   Color: {r: 0, g: 0, b: 0, a: 0.22745098}
+--- !u!114 &-4087768800872215317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968633158720202362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500c6816ea942a8499f2318e99facc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 3454134873622931862}
+  Color: {r: 1, g: 0, b: 0, a: 0.53333336}

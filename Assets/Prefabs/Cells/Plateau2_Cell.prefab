@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 7513175277100695186}
   - component: {fileID: 4609117517547028483}
   - component: {fileID: 3131336748719326672}
+  - component: {fileID: 4046611829132050954}
   m_Layer: 0
   m_Name: Plateau2_Cell
   m_TagString: Untagged
@@ -203,6 +204,8 @@ MonoBehaviour:
   HexGridType: 0
   MarkAsOccypiedFn:
   - {fileID: 7513175277100695186}
+  MarkAsTutorialFn:
+  - {fileID: 4046611829132050954}
 --- !u!58 &586290316659163673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -294,6 +297,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 5428114383842668538}
   Color: {r: 0, g: 0, b: 0, a: 0.2627451}
+--- !u!114 &4046611829132050954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968633158720202362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500c6816ea942a8499f2318e99facc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 5428114383842668538}
+  Color: {r: 1, g: 0, b: 0, a: 0.53333336}
 --- !u!1 &9059012389293111365
 GameObject:
   m_ObjectHideFlags: 0
