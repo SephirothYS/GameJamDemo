@@ -37,6 +37,7 @@ namespace TbsFramework.Fog
                 loadCellGrid(cellGrid);
             }
             Cell characterCell = character.Cell;
+            if (cells == null) return;
             foreach (Cell cell in cells)
             {
                 if (characterCell.GetDistance(cell) <= visibilityRange)
