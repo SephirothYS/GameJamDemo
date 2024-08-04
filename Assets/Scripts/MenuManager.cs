@@ -20,6 +20,11 @@ public class MenuManager : MonoBehaviour
         StartCoroutine(StartLoading_4(1));
     }
 
+    public void newLoadGame()
+    {
+        SceneManager.LoadSceneAsync("MainLevel");
+    }
+
     private IEnumerator StartLoading_4(int scene)
     {
         int displayBar = 0;

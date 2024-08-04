@@ -23,11 +23,13 @@ namespace TbsFramework.HOMMExample
         public CanvasGroup UICanvasGroup;
         private GameObject canvasNote;
         public int oxygenFactor = 1;
+        public Canvas OverCanvas;
         
         private void Start()
         {
             fogManager.UpdateVisibility();
             blackScreenCanvasGroup.alpha = 0;
+            if (OverCanvas) OverCanvas.gameObject.SetActive(false);
         }
         public override void Initialize()
         {
@@ -46,6 +48,7 @@ namespace TbsFramework.HOMMExample
                 HOMMHex curCell = Cell as HOMMHex;
                 curCell.MarkAsOccupied();
             }
+            this.OnMouseDown();
         }
 
         protected override void OnMoveFinished()
@@ -90,7 +93,7 @@ namespace TbsFramework.HOMMExample
                     yield return null;
                 }
                 previousCell = currentCell;
-                Oxygen -= currentCell.MovementCost * oxygenFactor;
+                Oxygen -= (currentCell.MovementCost - oxygenFactor);
             }
             SetIdleAnimation();
             OnMoveFinished();
@@ -127,8 +130,9 @@ namespace TbsFramework.HOMMExample
         IEnumerator GameOverSequence()
         {
             // Gradually darken the screen
+            OverCanvas.gameObject.SetActive(true);
+            gameOverUIPanel.gameObject.SetActive(true);
             float alpha = 0f;
-
             while (alpha < 1f)
             {
                 alpha += Time.deltaTime / 2;  // Duration of the black screen effect
@@ -140,7 +144,6 @@ namespace TbsFramework.HOMMExample
             yield return new WaitForSeconds(1f);
 
             // Show Game Over UI
-            gameOverUIPanel.SetActive(true);
             UICanvasGroup.alpha = 1f;
         }
     }

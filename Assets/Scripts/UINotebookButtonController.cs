@@ -5,20 +5,16 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    // string path = "D:\\GameJam\\shiban_content.txt";
-    // public Text text1;
-    // public Text text2;
-
     private string unselectedColorStr = "#856943";
     private string selectedColorStr = "#CC4E14";
 
-    public Text label1;
-    public Text label2;
-    public Image questionMark1;
-    public Image questionMark2;
+    private Text label1;
+    private Text label2;
+    private Image questionMark1;
+    private Image questionMark2;
 
-    public Button[] buttons; // 所有按钮的数组
-    public Image[] stories; // 全部石板描述文字
+    private Button[] buttons = new Button[5]; // 所有按钮的数组
+    private Image[] stories = new Image[10]; // 全部石板描述文字
 
     public float selectedWidth = 200f; // 选中时的宽度
     public float normalWidth = 100f; // 未选中时的宽度
@@ -30,16 +26,33 @@ public class ButtonManager : MonoBehaviour
 
     // string[] paragraphs;
 
-    private void Awake()
+    void Awake()
     {
-        InitUnlockState();
-    }
+        int length = buttons.Length;
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            string name = "ButtonNum" + (i + 1).ToString();
+            GameObject button = GameObject.Find(name);
+            buttons[i] = button.GetComponent<Button>();
+        }
 
-    void Start()
-    {
-        // // 读取文件
-        // string fileContent = File.ReadAllText(path);
-        // paragraphs = fileContent.Split(new string[] { "//\r\n\r\n" }, StringSplitOptions.None);
+        int lenStories = stories.Length;
+        for (int i = 0; i < stories.Length; i++)
+        {
+            string name = "ImageStory" + (i + 1).ToString();
+            GameObject story = GameObject.Find(name);
+            stories[i] = story.GetComponent<Image>();
+        }
+
+        GameObject text1 = GameObject.Find("TextLabel1");
+        label1 = text1.GetComponent<Text>();
+        GameObject text2 = GameObject.Find("TextLabel2");
+        label2 = text2.GetComponent<Text>();
+
+        GameObject mark1 = GameObject.Find("ImageQuestionMark");
+        questionMark1 = mark1.GetComponent<Image>();
+        GameObject mark2 = GameObject.Find("ImageQuestionMark2");
+        questionMark2 = mark2.GetComponent<Image>();
 
         // 初始化按钮状态
         for (int i = 0; i < buttons.Length; i++)
@@ -54,7 +67,7 @@ public class ButtonManager : MonoBehaviour
         {
             selectedButtonNum = 0;
         }
-        //InitUnlockState();
+        InitUnlockState();
         RefreshColor();
         RefreshPage();
     }
@@ -65,7 +78,6 @@ public class ButtonManager : MonoBehaviour
         {
             unlockState[i] = false;
         }
-        //unlockState[5] = false;
     }
 
     void Update()

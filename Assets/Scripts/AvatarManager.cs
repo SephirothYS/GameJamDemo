@@ -17,9 +17,10 @@ public class AvatarManager : MonoBehaviour
     public float chokingThreshold = 75.0f;
     public float dyingThreshold = 25.0f;
 
-    public Image imageHealthy;
-    public Image imageChoking;
-    public Image imageDying;
+    private Image imageHealthy;
+    private Image imageChoking;
+    private Image imageDying;
+    private Image black;
 
     public HOMMUnit character;
 
@@ -35,6 +36,10 @@ public class AvatarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        imageHealthy = GameObject.Find("ImageHealthy").GetComponent<Image>();
+        imageChoking = GameObject.Find("ImageChoking").GetComponent<Image>();
+        imageDying = GameObject.Find("ImageDying").GetComponent<Image>();
+        black = GameObject.Find("ImageBlackFace").GetComponent<Image>();
         ChangeToState(EState.HEALTHY);
     }
 
@@ -78,5 +83,12 @@ public class AvatarManager : MonoBehaviour
         {
             ChangeToState(EState.HEALTHY);
         }
+    }
+
+    public void RemoveBlackFace()
+    {
+        Color c = black.color;
+        c.a = 0.0f;
+        black.color = c;
     }
 }

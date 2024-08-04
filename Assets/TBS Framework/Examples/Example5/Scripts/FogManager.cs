@@ -53,6 +53,7 @@ namespace TbsFramework.Fog
             Transform fog = cell.transform.Find("Fog");
             if (!fog) return;
             Material fogMaterial = fog.GetComponent<SpriteRenderer>().material;
+            if (!fogMaterial) return;
             StartCoroutine(DissolveEffect(fogMaterial));
         }
 

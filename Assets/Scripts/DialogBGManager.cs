@@ -8,6 +8,7 @@ public class DialogBGManager : MonoBehaviour
     public Canvas dialogCanvas;
     public Image dialogBackground;
     public PostProcessVolume postProcessVolume;
+    public LogLeftDown LFD;
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class DialogBGManager : MonoBehaviour
         dialogCanvas.gameObject.SetActive(false);
         dialogBackground.gameObject.SetActive(false);
         postProcessVolume.weight = 0;
+        LFD.Log();
     }
 
     private void Update()

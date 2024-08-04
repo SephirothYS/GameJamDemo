@@ -7,6 +7,7 @@ using UnityEngine.Rendering.PostProcessing;
 using TbsFramework.HOMMExample;
 using UnityEngine.Events;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class InteractiveEvent : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class InteractiveEvent : MonoBehaviour
     private List<float> cumulativeProbabilities;
     public PostProcessVolume post;
     public bool isEnding = false;
+    public BGMController bgmController;
+    public bool avatarMask = false;
+    public AvatarManager avatarManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,10 +73,6 @@ public class InteractiveEvent : MonoBehaviour
             {
                 StartVideoPlay();
             }
-            if (isEnding)
-            {
-                EndingEventStart();
-            }
         }
     }
 
@@ -81,7 +81,8 @@ public class InteractiveEvent : MonoBehaviour
         flowchart.ExecuteBlock(blockName);
         doOnce = true;
         int number = int.Parse(blockName.Substring(5));
-        DataManager.Instance.unlockNote(number - 1);    
+        DataManager.Instance.unlockNote(number - 1);
+        DataManager.Instance.increaseExplorePoint(10);
     }
 
     private IEnumerator StartEventAfterDelay(float delay)
@@ -128,6 +129,7 @@ public class InteractiveEvent : MonoBehaviour
         {
             post.weight = 1;
         }
+        if (bgmController) bgmController.lower();
         videoCanvas.gameObject.SetActive(true);
         rawImage.gameObject.SetActive(true);
         VideoPlayer vPlayer = rawImage.GetComponent<VideoPlayer>();
@@ -137,30 +139,56 @@ public class InteractiveEvent : MonoBehaviour
 
     void OnVideoEnd(VideoPlayer vp)
     {
+        if (bgmController) bgmController.upper();
         videoCanvas.gameObject.SetActive(false);
         rawImage.gameObject.SetActive(false);
         if (post)
         {
             post.weight = 0;
         }
+        if (avatarManager) avatarManager.RemoveBlackFace();
     }
 
-    public void EndingEventStart()
+    public void TrueEnding()
     {
-        Canvas eventCanvas = videoCanvas;
-        GameObject endingImage = eventCanvas.transform.Find("EndingImage").gameObject;
-        GameObject trueEndButton = eventCanvas.transform.Find("TrueEndButton").gameObject;
-        GameObject fakeEndButton = eventCanvas.transform.Find("FakeEndButton").gameObject;
-        eventCanvas.gameObject.SetActive(true);
-        endingImage.gameObject.SetActive(true);
-        trueEndButton.gameObject.SetActive(true);
-        fakeEndButton.gameObject.SetActive(true);
-        if(post) post.weight = 1;
-        if (DataManager.Instance.explorePoint >= 60)
-        {
-            trueEndButton.transform.Find("lock").gameObject.GetComponent<Image>().gameObject.SetActive(false);
-            trueEndButton.transform.Find("HiddenText").gameObject.GetComponent<Text>().text = "Àë¿ªÐÇÇò";
-        }
+        if (bgmController) bgmController.StopMusic();
+        if (DataManager.Instance.explorePoint < 60) return;
+        GameObject TrueVideo = videoCanvas.transform.Find("TrueEndingVideo").gameObject;
+        GameObject bk = videoCanvas.transform.Find("EndingPanel").gameObject;
+        bk.SetActive(true);
+        VideoPlayer vp = TrueVideo.GetComponent<VideoPlayer>();
+        videoCanvas.gameObject.SetActive(true);
+        TrueVideo.SetActive(true);
+        vp.Play();
+        vp.loopPointReached += endPlaying;
+    }
+
+    public void BadEnding()
+    {
+        if (bgmController) bgmController.StopMusic();
+        GameObject badVideo = videoCanvas.transform.Find("BadEndingVideo").gameObject;
+        GameObject bk = videoCanvas.transform.Find("EndingPanel").gameObject;
+        bk.SetActive(true);
+        VideoPlayer vp = badVideo.GetComponent<VideoPlayer>();
+        videoCanvas.gameObject.SetActive(true);
+        badVideo.SetActive(true);
+        vp.Play();
+        vp.loopPointReached += endPlaying;
+    }
+
+    void endPlaying(VideoPlayer vp)
+    {
+        vp.gameObject.SetActive(false);
+        GameObject lst = videoCanvas.transform.Find("LastVideo").gameObject;
+        VideoPlayer vPlayer = lst.GetComponent<VideoPlayer>();
+        lst.gameObject.SetActive(true);
+        vPlayer.Play();
+        vPlayer.loopPointReached += endToMenu;
+    }
+
+    private void endToMenu(VideoPlayer vp)
+    { 
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -170,9 +198,24 @@ public class InteractiveEvent : MonoBehaviour
         {
             GameObject character = GameObject.Find("Character");
             if (!character) return;
-            GeneralButton.Instance.ShowButton(character.transform.position, this); // ÏÔÊ¾°´Å¥
+            if (!isEnding)
+            {
+                //GeneralButton.Instance.ShowButton(character.transform.position, this); // ÏÔÊ¾°´Å¥
+                StartCoroutine(delayShowButton(1f, character));
+            }
+            else
+            { 
+                GeneralButton.Instance.ShowEndingButton(character.transform.position, this);
+            }
             canEnter = true;
         }
+    }
+
+    IEnumerator delayShowButton(float delay, GameObject character)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GeneralButton.Instance.ShowButton(character.transform.position, this);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -180,7 +223,14 @@ public class InteractiveEvent : MonoBehaviour
         if (doOnce) return;
         if (other.tag.Equals("Player"))
         {
-            GeneralButton.Instance.HideButton(); // Òþ²Ø°´Å¥
+            if (!isEnding)
+            {
+                GeneralButton.Instance.HideButton(); // Òþ²Ø°´Å¥
+            }
+            else 
+            {
+                GeneralButton.Instance.HideEndingButton();
+            } 
             canEnter = false;
         }
     }

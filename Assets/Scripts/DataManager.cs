@@ -11,8 +11,8 @@ public class DataManager : MonoBehaviour
     private ButtonManager BM;
     public GameObject character;
     private HOMMUnit characterData;
-    public int explorePoint = 0;
-    public int exploreFactor = 1;
+    public float explorePoint = 0;
+    public float exploreFactor = 1;
     public PostProcessVolume post;
     public Canvas lowOxygenCanvas;
     // Start is called before the first frame update
@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour
     {
         if (CanvasNote != null)
         {
-            BM = CanvasNote.GetComponent<ButtonManager>();       
+            BM = CanvasNote.GetComponent<ButtonManager>();
         }
         if (character != null)
         {
@@ -47,12 +47,21 @@ public class DataManager : MonoBehaviour
     public void unlockNote(int number)
     {
         if (number >= 0 && number < 10)
-        { 
+        {
             BM.unlockState[number] = true;
         }
     }
 
-    public void increaseExplorePoint(int value)
+    public void SetExpploreFactor(float factor)
+    {
+        exploreFactor = factor;
+    }
+
+    public void SetOxygenFactor(int factor)
+    {
+        characterData.oxygenFactor = 2;
+    }
+    public void increaseExplorePoint(float value)
     {
         explorePoint += value * exploreFactor;
     }
@@ -60,7 +69,7 @@ public class DataManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (characterData.Oxygen < 30)
+        if (characterData.Oxygen <= 25)
         {
             float curTime = 0f;
             float totalTime = 1.5f;

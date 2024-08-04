@@ -8,7 +8,6 @@ namespace TbsFramework
     public class HOMMHex : Hexagon
     {
         public List<CellHighlighter> MarkAsOccypiedFn;
-        public List<CellHighlighter> MarkAsTutorialFn;
         public bool isSea = false;
 
         public override Vector3 GetCellDimensions()
@@ -42,11 +41,6 @@ namespace TbsFramework
         public void MarkAsOccupied()
         {
             MarkAsOccypiedFn?.ForEach(o => o.Apply(this));
-        }
-
-        public void MarkAsTutorial()
-        {
-            MarkAsTutorialFn?.ForEach(o => o.Apply(this));
         }
 
         public int GetNeighbourDirection(HOMMHex other)
